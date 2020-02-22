@@ -26,6 +26,7 @@ export default {
     
   },
   created () {
+    console.log(this.$store.state.goodsList)
    
   },
   methods: {

@@ -40,7 +40,7 @@ export default {
       recommends: [],
       goodsList: {
         pop: [],
-        new: [],
+        news: [],
         sell: [],
         type: ["pop", "news", "sell"]
       },
@@ -79,18 +79,23 @@ export default {
       this.$refs.tabControl2.currentIndex = index;
     },
     getAllGoodsList() {
-      this.goodsList.type.forEach(type => {
-        this.$store.dispatch("action", type).then(res => {
-          let datas = res.data
-          for(let data of datas){
-            data.id = this.itemId
-            data.amount = 1
-            data.chose = false
-            this.itemId++
+      new Promise(resolve => {
+        setTimeout(() => {
+          resolve()
+        },200)
+      }).then(() => {
+        let flag = false
+        this.goodsList.type.forEach(type => {
+          this.goodsList[type] = this.$store.state.goodsList[type]
+          if(this.goodsList[type].length === 0){
+            flag = true
           }
-          this.goodsList[type] = datas;
-        });
-      });
+        })
+        if(flag === true){
+          this.getAllGoodsList()
+        }
+      })
+      
     },
     scrollRefresh() {
       this.$refs.HomeScroll.scroll && this.$refs.HomeScroll.scroll.refresh();
@@ -110,17 +115,20 @@ export default {
     }
   },
   created() {
-    getHomeMultidata()
-      .then(res => {
-        this.banners = res.data.banner.list;
-        this.recommends = res.data.recommend.list;
-      })
-      .catch(err => {
-        return err
-      }),
-      this.getAllGoodsList();
+    this.getAllGoodsList();
+    getHomeMultidata().then(res => {
+      this.banners = res.data.banner.list;
+      this.recommends = res.data.recommend.list;
+    }).catch(err => {
+      return err
+    })
+  },
+  mounted() {
+    
   },
   activated() {
+      this.getAllGoodsList();
+
     this.$refs.HomeScroll.scroll.refresh(); //防止better-scroll的bug
     this.$refs.HomeScroll.scroll.scrollTo(0, this.currentScrollY);
   },

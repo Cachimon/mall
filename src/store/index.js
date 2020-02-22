@@ -6,6 +6,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    goodsList: {
+      pop: [],
+      news: [],
+      sell: [],
+      type: ["pop", "news", "sell"]
+    },
+    itemId: 0,
     goodsinfo: '',
     cartList: [],
     itemId: 0,
@@ -13,7 +20,19 @@ export default new Vuex.Store({
     selectedCartList: []
   },
   mutations: {
-    getgoods(state){},
+    getgoods(state, payload){
+      
+      /*console.log(state.goodsList[type])
+        let datas = payload.res.data
+        for(let data of datas){
+          data.id = state.itemId
+          data.amount = 1
+          data.chose = false
+          state.itemId++
+        }
+        //this.goodsList[type] = datas;*/
+        Vue.set(state.goodsList, payload.type, payload.datas)
+    },
     addCart(state, item){
       let ifExist = state.cartList.some((cart) => {
         return cart.id === item.id
@@ -55,8 +74,20 @@ export default new Vuex.Store({
   },
   actions: {
     action(context, type){
-      context.commit("getgoods")
-      return getGoods(type)
+      return getGoods(type).then(res => {
+        let datas = res.data
+        for(let data of datas){
+          data.id = this.state.itemId
+          data.amount = 1
+          data.chose = false
+          this.state.itemId++
+        }
+        context.commit("getgoods", {datas, type})
+        return new Promise(resolve => {
+          resolve(datas)
+        })
+      })
+      
     }
   },
   modules: {

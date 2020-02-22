@@ -71,7 +71,7 @@ export default {
       this.totalAmount = this.$store.state.selectedCartList.length
       this.$store.state.selectedCartList && this.$store.state.selectedCartList.forEach(cart => {
         let price = cart.price.slice(1, cart.price.length) - 0
-        this.totalPrice += price * cart.amount
+        this.totalPrice = (this.totalPrice + price * cart.amount).toFixed(2) - 0
       })
     }
   },

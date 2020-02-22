@@ -54,7 +54,7 @@ export default {
       activeCateList: [],
       goodsList: {
         pop: [],
-        new: [],
+        news: [],
         sell: [],
         type: ["pop", "news", "sell"]
       },
@@ -80,10 +80,10 @@ export default {
   },
   created(){
     this.getAllCateList()
-    this.getAllGoodsList()
+    
   },
   mounted(){
-    this.scrollRefresh()
+    this.getAllGoodsList()
   },
   methods: {
     getAllCateList(){
@@ -104,18 +104,23 @@ export default {
       this.tabControlOffsetTop = this.$refs.tabControl2.$el.offsetTop - this.$refs.tabControl2.$el.offsetHeight
     },
     getAllGoodsList() {
-      this.goodsList.type.forEach(type => {
-        this.$store.dispatch("action", type).then(res => {
-          let datas = res.data
-          for(let data of datas){
-            data.id = this.itemId
-            data.amount = 1
-            data.chose = false
-            this.itemId++
+      new Promise(resolve => {
+        setTimeout(() => {
+          resolve()
+        },200)
+      }).then(() => {
+        let flag = false
+        this.goodsList.type.forEach(type => {
+          this.goodsList[type] = this.$store.state.goodsList[type]
+          if(this.goodsList[type].length === 0){
+            flag = true
           }
-          this.goodsList[type] = datas;
-        });
-      });
+        })
+        if(flag === true){
+          this.getAllGoodsList()
+        }
+      })
+      
     },
     scrollRefresh() {
       this.$refs.HomeScroll.scroll && this.$refs.HomeScroll.scroll.refresh();

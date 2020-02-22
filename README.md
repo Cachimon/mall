@@ -17,3 +17,8 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### Online Project
+http://www.cachimon.top:8081
+(please check on mobile device)

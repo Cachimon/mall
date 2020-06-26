@@ -8,9 +8,9 @@ export default new Vuex.Store({
   state: {
     goodsList: {
       pop: [],
-      news: [],
+      new: [],
       sell: [],
-      type: ["pop", "news", "sell"]
+      type: ["pop", "new", "sell"]
     },
     itemId: 0,
     goodsinfo: '',

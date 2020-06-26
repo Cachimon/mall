@@ -54,9 +54,9 @@ export default {
       activeCateList: [],
       goodsList: {
         pop: [],
-        news: [],
+        new: [],
         sell: [],
-        type: ["pop", "news", "sell"]
+        type: ["pop", "new", "sell"]
       },
       type: "pop",
       currentScrollY: 0,

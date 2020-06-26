@@ -17,9 +17,9 @@ export default {
     return {
       goodsList: {
         pop: [],
-        news: [],
+        new: [],
         sell: [],
-        type: ["pop", "news", "sell"]
+        type: ["pop", "new", "sell"]
       },
       type: "pop",
     }
